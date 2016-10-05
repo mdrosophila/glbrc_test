@@ -1,10 +1,17 @@
 <% provide(:title, @user.login) %>
 <div class="row">
-  <aside class="col-md-4">
     <section class="user_info">
       <h1>
         <%= @user.login %>
-      </h1>      
+      </h1>
+      <br/>
+      <div class="stats">
+        <a href="<%= configureApp_user_path(@user) %>" class="button" >
+          Configure Apps
+        </a>
+      </div>
+      <% @apps.each do |app| %>
+        <%= link_to image_tag("#{app.application_id}.png",alt: "#{Application.find_by(id: app.application_id).name}"), 'http://rubyonrails.org/' %>
+      <% end %>
     </section>
-  </aside>
 </div>

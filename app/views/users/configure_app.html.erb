@@ -1,0 +1,32 @@
+<h1> Configure Apps</h1>
+<div class="container" style="width: 200px;" align="left">
+<a href="<%= user_path(@user) %>" class="button" >
+          Complete App Configuration
+</a>
+</div>
+<br/>
+
+<% @apps.each do |app| %>
+  <div class="container" style="height:200px; width: 200px;" align="left">
+    <%= link_to image_tag("#{app.id}.png",alt: "#{Application.find_by(id: app.id).name}"), 'http://rubyonrails.org/' %>
+  </div>
+  <br/>
+  <br/>
+  <% if !@user.user_relationships.find_by(application_id: app.id).nil? %>
+   <div class="container" style="height:100px; width: 200px;" align="left">
+    <%= form_for(@user.user_relationships.find_by(application_id: app.id),
+              html: { method: :delete },
+              remote: true) do |f| %>
+    <div><%= hidden_field_tag :application_id, app.id %></div>
+    <%= f.submit "Remove App", class: "btn btn-default", style: "float: left;" %>
+    <% end %>
+    </div>
+  <% else %>
+  <div class="container", style="height:100px; width: 200px;" align="left">
+    <%= form_for(@user.user_relationships.build, remote: true) do |f| %>
+    <div><%= hidden_field_tag :application_id, app.id %></div>
+    <%= f.submit "Add App", class: "btn btn-primary", style: "float: left;"  %>
+    <% end %>
+  </div>
+  <% end %>
+<% end %>

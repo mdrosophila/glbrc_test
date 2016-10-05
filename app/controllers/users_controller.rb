@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
+    @apps = @user.user_relationships
   end
   
   def new
@@ -17,7 +18,11 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
-  
+  def configureApp
+    @apps  = Application.all
+    @user = User.find(params[:id])
+    render 'configure_app'
+  end
   private
     
     def user_params
